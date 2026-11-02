@@ -1,0 +1,5 @@
+$kind: collection
+description: GET endpoint tests for task collection queries and GET task by ID select support. Set baseUrl and taskId collection variables before running.
+variables:
+  baseUrl: http://localhost:3000/api
+  taskId: ""

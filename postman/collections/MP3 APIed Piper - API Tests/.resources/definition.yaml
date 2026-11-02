@@ -1,0 +1,12 @@
+$kind: collection
+description: Sequential smoke and reference-integrity tests for the MP3 API. Set baseUrl before running. Requests assume /users and /tasks routes and the assignment's JSON {message, data} response format.
+variables:
+  baseUrl: https://YOUR-RENDER-APP.onrender.com
+  usersPath: /users
+  tasksPath: /tasks
+  emailA: ""
+  emailB: ""
+  userA: ""
+  userB: ""
+  taskOne: ""
+  taskTwo: ""

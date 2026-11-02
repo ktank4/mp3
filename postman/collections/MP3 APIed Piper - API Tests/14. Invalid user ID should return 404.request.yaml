@@ -1,0 +1,11 @@
+$kind: http-request
+description: Run in order. This collection stores IDs in collection variables for later requests.
+url: "{{baseUrl}}/users/not-an-object-id"
+method: GET
+headers:
+  Content-Type: application/json
+scripts:
+  - type: afterResponse
+    code: pm.test('Invalid ID returns 404', () => pm.response.to.have.status(404));
+    language: text/javascript
+order: 14000

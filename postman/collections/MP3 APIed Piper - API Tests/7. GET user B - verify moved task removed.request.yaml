@@ -1,0 +1,13 @@
+$kind: http-request
+description: Run in order. This collection stores IDs in collection variables for later requests.
+url: "{{baseUrl}}/users/{{userB}}"
+method: GET
+headers:
+  Content-Type: application/json
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Found user B (200)', () => pm.response.to.have.status(200));
+      pm.test('Moved task removed from user B', () => pm.expect(pm.response.json().data.pendingTasks.map(String)).to.not.include(pm.collectionVariables.get('taskTwo')));
+    language: text/javascript
+order: 7000

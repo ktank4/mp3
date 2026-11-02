@@ -1,0 +1,13 @@
+$kind: http-request
+description: Run in order. This collection stores IDs in collection variables for later requests.
+url: "{{baseUrl}}/tasks/{{taskOne}}"
+method: GET
+headers:
+  Content-Type: application/json
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Found task (200)', () => pm.response.to.have.status(200));
+      pm.test('Task is unassigned', () => { const d = pm.response.json().data; pm.expect(d.assignedUser).to.eql(''); pm.expect(d.assignedUserName).to.eql('unassigned'); });
+    language: text/javascript
+order: 10000

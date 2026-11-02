@@ -1,0 +1,16 @@
+# Use this workspace to collaborate
+workspace:
+  id: f6a2a11c-cb4c-43e9-8c4a-b46d03b1f48d
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/MP3 - Task GET Tests: 574c1530-bbb4-4311-a86b-747a115f37d6
+    ../postman/collections/MP3 APIed Piper - API Tests: ab502d56-c67f-4a38-b24e-5050d5243481
+
+# All resources in the `postman/` folder are automatically registered in Local View.
+# Point to additional files outside the `postman/` folder to register them individually. Example:
+#localResources:
+#  collections:
+#    - ../tests/E2E Test Collection/

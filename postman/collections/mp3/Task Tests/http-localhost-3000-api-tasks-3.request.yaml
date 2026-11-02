@@ -1,0 +1,20 @@
+$kind: http-request
+name: http://localhost:3000/api/tasks
+description: ""
+url: http://localhost:3000/api/tasks
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "name": "Finish homework",
+        "deadline": "not-a-date"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("returns 400 for bad id", () => {
+        pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 5000

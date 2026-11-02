@@ -1,0 +1,25 @@
+$kind: http-request
+url: http://localhost:3000/api/tasks
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "name": "Finish homework",
+        "description": "Complete my CS assignment"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Returns 400 for missing deadline", () => {
+          pm.response.to.have.status(400);
+      });
+
+      pm.test("Returns error response", () => {
+          var response = pm.response.json();
+
+          pm.expect(response.message).to.exist;
+          pm.expect(response.data).to.eql(null);
+      });
+    language: text/javascript
+order: 2000

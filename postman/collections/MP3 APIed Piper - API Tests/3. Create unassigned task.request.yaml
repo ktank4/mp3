@@ -1,0 +1,24 @@
+$kind: http-request
+description: Run in order. This collection stores IDs in collection variables for later requests.
+url: "{{baseUrl}}/tasks"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Postman task one",
+      "description": "Created by Postman collection",
+      "deadline": "2030-01-01T12:00:00.000Z",
+      "completed": false,
+      "assignedUser": ""
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Created task (201)', () => pm.response.to.have.status(201));
+      const d = pm.response.json().data;
+      pm.collectionVariables.set('taskOne', d._id);
+    language: text/javascript
+order: 3000

@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/tasks?select=%7B%22name%22%3A1%2C%22completed%22%3A1%7D"
+method: GET
+queryParams:
+  select: "%7B%22name%22%3A1%2C%22completed%22%3A1%7D"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Returns status 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Only selected fields and the default ID are returned", function () {
+          pm.response.json().data.forEach(function (task) {
+              pm.expect(Object.keys(task)).to.have.members(["_id", "name", "completed"]);
+          });
+      });
+    language: text/javascript
+order: 7000

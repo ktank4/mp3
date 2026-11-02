@@ -1,0 +1,38 @@
+$kind: http-request
+name: http://localhost:3000/api/tasks
+description: ""
+url: http://localhost:3000/api/tasks
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "name": "Finish homework",
+        "description": "Complete my CS assignment",
+        "deadline": "2026-11-01",
+        "completed": false
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Task created successfully", () => {
+          pm.response.to.have.status(201);
+      });
+
+      pm.test("Response contains task data", () => {
+          var response = pm.response.json();
+
+          pm.expect(response.data).to.exist;
+          pm.expect(response.data.name).to.eql("Finish homework");
+          pm.expect(response.data.description).to.eql("Complete my CS assignment");
+          pm.expect(response.data.completed).to.eql(false);
+          pm.expect(response.data.assignedUser).to.eql("");
+          pm.expect(response.data.assignedUserName).to.eql("unassigned");
+      });
+
+      // Save task ID for future requests
+      var response = pm.response.json();
+      pm.collectionVariables.set("taskId", response.data._id);
+    language: text/javascript
+examples: .resources/http-localhost-3000-api-tasks.resources/examples
+order: 1000

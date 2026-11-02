@@ -1,0 +1,23 @@
+$kind: http-request
+description: Run in order. This collection stores IDs in collection variables for later requests.
+url: "{{baseUrl}}/tasks/{{taskOne}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Postman task one completed",
+      "description": "Updated by Postman",
+      "deadline": "2030-01-01T12:00:00.000Z",
+      "completed": true,
+      "assignedUser": ""
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Updated task (200)', () => pm.response.to.have.status(200));
+      pm.test('Task is completed', () => pm.expect(pm.response.json().data.completed).to.eql(true));
+    language: text/javascript
+order: 11000

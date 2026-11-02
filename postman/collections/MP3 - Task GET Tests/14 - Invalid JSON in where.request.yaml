@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/tasks?where=%7B%22completed%22%3A"
+method: GET
+queryParams:
+  where: "%7B%22completed%22%3A"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Returns status 400", function () {
+          pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 14000

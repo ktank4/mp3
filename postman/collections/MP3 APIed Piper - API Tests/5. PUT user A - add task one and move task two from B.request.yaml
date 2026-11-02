@@ -1,0 +1,24 @@
+$kind: http-request
+description: Run in order. This collection stores IDs in collection variables for later requests.
+url: "{{baseUrl}}/users/{{userA}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Postman User A Updated",
+      "email": "{{emailA}}",
+      "pendingTasks": [
+        "{{taskOne}}",
+        "{{taskTwo}}"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Updated user (200)', () => pm.response.to.have.status(200));
+      pm.test('User has both pending tasks', () => pm.expect(pm.response.json().data.pendingTasks.map(String)).to.include.members([pm.collectionVariables.get('taskOne'), pm.collectionVariables.get('taskTwo')]));
+    language: text/javascript
+order: 5000
