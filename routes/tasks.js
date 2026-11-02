@@ -73,12 +73,6 @@ router.get('/', async (req, res) => {
             data: tasks
         });
     } catch (err) {
-        if (err.name === 'CastError' || err instanceof SyntaxError) {
-            return res.status(400).json({
-                message: 'Invalid value in query.',
-                data: null
-            });
-        }
         console.error(err);
         return res.status(500).json({
             message: 'Could not get tasks.',
