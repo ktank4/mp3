@@ -74,12 +74,6 @@ router.get('/', async (req, res) => {
             data: users
         });
     } catch (err) {
-        if (err.name === 'CastError' || err instanceof SyntaxError) {
-            return res.status(400).json({
-                message: 'Invalid value in query.',
-                data: null
-            });
-        }
         console.error(err);
         return res.status(500).json({
             message: 'Could not get users.',
@@ -125,7 +119,6 @@ router.get('/:id', async function (req, res) {
 });
 
 router.post('/', async function (req, res) {
-
     try {
         var name = req.body.name;
         var email = req.body.email;
