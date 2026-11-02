@@ -30,10 +30,7 @@ router.delete('/:id', async function (req, res) {
             { assignedUser: '', assignedUserName: 'unassigned' }//set all matches to this
         );
         await User.findByIdAndDelete(userId);
-        return res.status(200).json({
-            message: 'Success',
-            data: user
-        });
+        return res.status(204).send();
     } catch (err) {
         console.error(err);
         return res.status(500).json({
@@ -165,7 +162,7 @@ router.post('/', async function (req, res) {
         if (pendingTasksDup.length > 0) {
             tasks = await Task.find({ _id: { $in: pendingTasksDup } });
             if (tasks.length !== pendingTasksDup.length) {
-                return res.status(400).json({
+                return res.status(404).json({
                     message: 'Task not found.',
                     data: null
                 });
