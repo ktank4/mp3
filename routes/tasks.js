@@ -32,10 +32,7 @@ router.delete('/:id', async (req, res) => {
             }
         }
         await Task.findByIdAndDelete(taskId);
-        return res.status(200).json({
-            message: 'Success.',
-            data: task
-        });
+        return res.status(204).send();
     } catch (err) {
         console.error(err);
         return res.status(500).json({
@@ -161,6 +158,7 @@ router.put('/:id', async (req, res) => {
             data: null
         });
     }
+    var newUserName = req.body.assignedUserName;
     var newUserProfile = null;
     if (newUserId != ''){
         if (!isValidId(newUserId)) {
@@ -176,36 +174,19 @@ router.put('/:id', async (req, res) => {
                 data: null
             });
         }
-    }
-    var newUserId = req.body.assignedUser || '';
-var newUserName = req.body.assignedUserName;
-
-if (newUserId !== '') {
-    if (!isValidId(newUserId)) {
-        return res.status(400).json({ message: 'Invalid assignedUser.', data: null });
-    }
-    var newUserProfile = await User.findById(newUserId);
-    if (!newUserProfile) {
-        return res.status(400).json({ message: 'Assigned user not found.', data: null });
-    }
-    if (newUserName !== undefined && newUserName !== newUserProfile.name) {
+        if (newUserName !== undefined && newUserName !== newUserProfile.name) {
+            return res.status(400).json({
+                message: 'Assigned username does not match the user.',
+                data: null
+            });
+        }
+    } else if (newUserName !== undefined && newUserName !== 'unassigned') {
         return res.status(400).json({
-            message: 'assignedUserName does not match assignedUser.',
+            message: 'assignedUserName must be "unassigned" when there is no assignedUser.',
             data: null
         });
+    
     }
-    newUserName = newUserProfile.name;
-} else {
-    if (newUserName !== undefined && newUserName !== 'unassigned') {
-        return res.status(400).json({
-            message: 'assignedUserName must be "unassigned" when assignedUser is empty.',
-            data: null
-        });
-    }
-    newUserName = 'unassigned';
-}
-
-// ...then your oldUserProfile block...
     var oldUserProfile = null;
 
     if (oldUserId !== '') {
